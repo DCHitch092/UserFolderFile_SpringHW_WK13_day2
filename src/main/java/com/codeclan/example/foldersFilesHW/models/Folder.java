@@ -1,5 +1,6 @@
 package com.codeclan.example.foldersFilesHW.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
@@ -17,8 +18,9 @@ public class Folder {
     @Column(name = "title")
     private String title;
 
-//    @Column(name = "fileList")
-//    private List<File> fileList;
+    @JsonIgnore
+    @OneToMany(mappedBy = "folder")
+    private List<File> fileList;
 
     @JsonIgnoreProperties("folders")
     @ManyToOne
@@ -27,7 +29,7 @@ public class Folder {
 
     public Folder(String title, User user) {
         this.title = title;
-//        this.fileList = new ArrayList<File>();
+        this.fileList = new ArrayList<File>();
         this.user = user;
     }
 
@@ -57,11 +59,15 @@ public class Folder {
         this.user = user;
     }
 
-    //    public List<File> getFileList() {
-//        return fileList;
-//    }
-//
-//    public void setFileList(List<File> fileList) {
-//        this.fileList = fileList;
-//    }
+        public List<File> getFileList() {
+        return fileList;
+    }
+
+    public void setFileList(List<File> fileList) {
+        this.fileList = fileList;
+    }
+
+    public void addFile(File file){
+        fileList.add(file);
+    }
 }

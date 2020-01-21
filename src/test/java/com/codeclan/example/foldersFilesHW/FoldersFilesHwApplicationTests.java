@@ -1,7 +1,9 @@
 package com.codeclan.example.foldersFilesHW;
 
+import com.codeclan.example.foldersFilesHW.models.File;
 import com.codeclan.example.foldersFilesHW.models.Folder;
 import com.codeclan.example.foldersFilesHW.models.User;
+import com.codeclan.example.foldersFilesHW.repositories.FileRepository;
 import com.codeclan.example.foldersFilesHW.repositories.FolderRepository;
 import com.codeclan.example.foldersFilesHW.repositories.UserRepository;
 import org.junit.jupiter.api.Test;
@@ -17,6 +19,9 @@ class FoldersFilesHwApplicationTests {
 	@Autowired
 	FolderRepository folderRepository;
 
+	@Autowired
+	FileRepository fileRepository;
+
 	@Test
 	void contextLoads() {
 	}
@@ -29,8 +34,14 @@ class FoldersFilesHwApplicationTests {
 		Folder folder = new Folder("normal documents", user);
 		folderRepository.save(folder);
 
+		File file = new File("definitely work", "exe", 100, folder);
+		fileRepository.save(file);
+
+		folder.addFile(file);
+		folderRepository.save(folder);
 		user.addFolder(folder);
 		userRepository.save(user);
+
 
 
 	}
